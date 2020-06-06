@@ -1,8 +1,8 @@
-import { UPDATE_MOVIES } from "../types";
+import { UPDATE_MOVIES, UPDATE_CURRENT_MOVIE } from "../types";
 import { ReducerAction } from "../../types/store";
 import { Movie } from "../../types";
 
-type Action = ReducerAction<Movie[]>;
+type Action = ReducerAction<Movie[] | Movie>;
 
 const initState = {
   movies: [],
@@ -12,6 +12,10 @@ export default (state = initState, { payload, type }: Action) => {
   switch (type) {
     case UPDATE_MOVIES: {
       return { ...payload };
+    }
+
+    case UPDATE_CURRENT_MOVIE: {
+      return { ...state, currentMovie: payload };
     }
 
     default:
