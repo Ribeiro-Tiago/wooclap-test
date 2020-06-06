@@ -7,10 +7,8 @@ import {
 } from "restify";
 
 export interface CustomError {
-  code: number;
   status: number;
   message: string;
-  key: string;
 }
 
 export interface Request extends RestifyRequest {}
