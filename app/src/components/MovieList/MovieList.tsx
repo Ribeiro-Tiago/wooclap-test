@@ -14,18 +14,14 @@ export default function MovieList({ movies, updateCurrent }: Props) {
     return (
       <div className="container">
         {movies.map((movie) => (
-          <MovieItem movie={movie} onClick={updateCurrent} />
+          <MovieItem key={movie._id} movie={movie} onClick={updateCurrent} />
         ))}
       </div>
     );
   };
 
   const renderEmptyList = () => {
-    return (
-      <div className="emptyWrapper">
-        <p>No movies available</p>
-      </div>
-    );
+    return <h3>Didn't find any movies that match that search</h3>;
   };
 
   const render = () => (movies.length ? renderMovies() : renderEmptyList());
