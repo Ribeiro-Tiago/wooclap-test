@@ -1,5 +1,22 @@
 @import "../../scss/variables.scss";
 
+@mixin commonSearchbarStyle {
+  transition: 0.2;
+  background: transparent;
+  border-style: solid;
+  padding: 0.5rem 1rem;
+  color: $secondaryColor;
+  border-color: $secondaryColor;
+  font-size: 1.5rem;
+  border-width: 1px;
+  outline: none;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+}
+
 .searchbar {
   width: 50%;
   display: flex;
@@ -15,41 +32,23 @@
   }
 
   input {
-    transition: 0.3;
+    @include commonSearchbarStyle();
     height: 30px;
     width: 100%;
     border-top-left-radius: 10px;
-    background: transparent;
-    border-style: solid;
-    padding: 0.5rem 1rem;
-    border-color: #61dafb;
-    color: #61dafb;
-    font-size: 1.5rem;
     border-bottom-left-radius: 10px;
-    border-width: 1px;
 
     &::placeholder {
       color: $secondaryColor;
       opacity: 0.5;
     }
-
-    &:focus,
-    &:active {
-      outline: none;
-    }
   }
 
   button {
-    background: transparent;
-    font-size: 1.5rem;
-    color: $secondaryColor;
-    border-color: $secondaryColor;
+    @include commonSearchbarStyle();
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    padding: 0.5rem 1rem;
-    border-style: solid;
     height: 48px;
-    transition: 0.2s;
     cursor: pointer;
     border-left-width: 0;
 

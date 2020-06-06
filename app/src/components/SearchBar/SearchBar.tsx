@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "./SearchBar.scss";
 import debounce from "../../utils/debounce";
-import { searchMovies } from "../../services/api";
 
-export default function SearchBar() {
-  const [isFetching, setFetching] = useState<boolean>(false);
+interface Props {
+  isFetching: boolean;
+  searchMovies: (search: string) => void;
+}
+
+export default function SearchBar({ searchMovies, isFetching }: Props) {
   let input: HTMLInputElement;
 
   const onTriggerSearch = async () => {
@@ -13,8 +16,7 @@ export default function SearchBar() {
       return;
     }
 
-    setFetching(true);
-    await searchMovies(input.value).finally(() => setFetching(false));
+    searchMovies(input.value);
   };
 
   const onChange = () => debounce(onTriggerSearch);
@@ -25,6 +27,7 @@ export default function SearchBar() {
         type="text"
         placeholder="Search..."
         onChange={onChange}
+        disabled={isFetching}
         ref={(ref) => {
           if (ref) {
             input = ref;
@@ -32,7 +35,9 @@ export default function SearchBar() {
         }}
       />
 
-      <button onClick={onTriggerSearch}>Search</button>
+      <button disabled={isFetching} onClick={onTriggerSearch}>
+        Search
+      </button>
     </div>
   );
 }
