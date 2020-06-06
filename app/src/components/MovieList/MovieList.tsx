@@ -14,7 +14,7 @@ export default function MovieList({ movies, updateCurrent }: Props) {
     return (
       <div className="container">
         {movies.map((movie) => (
-          <MovieItem key={movie._id} movie={movie} onClick={updateCurrent} />
+          <MovieItem key={movie.id} movie={movie} onClick={updateCurrent} />
         ))}
       </div>
     );
