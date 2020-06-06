@@ -1,16 +1,29 @@
 import React from "react";
+import { Switch, Route, Router } from "react-router-dom";
+import { createBrowserHistory } from "history";
 
 import "./Home.scss";
-import { SearchBar, MovieList } from "../../components";
+import { MovieDetails, SearchBar, MovieList } from "../../components";
 
 export default function Home() {
+  const customHistory = createBrowserHistory();
+
   return (
     <div className="home">
-      <h1>Movie Catalog</h1>
+      <Router history={customHistory}>
+        <Switch>
+          <Route path="/">
+            <h1>Movie Catalog</h1>
 
-      <SearchBar />
+            <SearchBar />
 
-      <MovieList />
+            <MovieList />
+          </Route>
+          <Route path="/movie">
+            <MovieDetails />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
