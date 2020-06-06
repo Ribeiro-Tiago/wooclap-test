@@ -1,5 +1,8 @@
+import { ObjectId } from "mongodb";
+
 import { getConnection } from "../../config/database";
 import { Movie } from "../types/movies";
+import { fromObjectId } from "./utils";
 
 const collection = (name: string) => getConnection().collection(name);
 
@@ -21,4 +24,12 @@ export const search = async (searchQuery?: string) => {
     ratings: movie.ratings,
     releaseDate: movie.releaseDate,
   }));
+};
+
+export const getDetails = async (id: ObjectId) => {
+  const details = await collection("movies").findOne<Movie>({ _id: id });
+
+  delete details._id;
+
+  return { ...details, id: fromObjectId(id) };
 };
