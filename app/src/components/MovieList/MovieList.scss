@@ -1,0 +1,10 @@
+.movies {
+  padding-top: 5vh;
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}

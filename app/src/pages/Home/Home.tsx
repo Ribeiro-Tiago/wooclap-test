@@ -1,7 +1,7 @@
 import React from "react";
 
 import "./Home.scss";
-import { SearchBar } from "../../components";
+import { SearchBar, MovieList } from "../../components";
 
 export default function Home() {
   return (
@@ -9,6 +9,8 @@ export default function Home() {
       <h1>Movie Catalog</h1>
 
       <SearchBar />
+
+      <MovieList />
     </div>
   );
 }
