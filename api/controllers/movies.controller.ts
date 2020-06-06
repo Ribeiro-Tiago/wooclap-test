@@ -8,10 +8,6 @@ const sanitizeInput = (input?: string) => {
 export const getAll = async ({ query }: Request, res: Response) => {
   const sanitized = sanitizeInput(query.search);
 
-  if (!sanitized) {
-    return res.error({ message: "'search' param required", status: 400 });
-  }
-
   const movies = await search(sanitized);
 
   return res.json(movies);

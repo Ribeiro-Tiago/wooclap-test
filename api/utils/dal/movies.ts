@@ -4,9 +4,11 @@ const collection = (name: string) => getConnection().collection(name);
 
 const PAGE_LIMIT = 10;
 
-export const search = (searchQuery: string) => {
+export const search = (searchQuery?: string) => {
   return collection("movies")
-    .find({ name: { $regex: searchQuery } })
+    .find({
+      ...(searchQuery && { name: { $regex: searchQuery } }),
+    })
     .limit(PAGE_LIMIT)
     .sort({ name: 1 })
     .toArray();
