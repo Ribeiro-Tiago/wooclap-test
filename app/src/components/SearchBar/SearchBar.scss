@@ -1,0 +1,55 @@
+@import "../../scss/variables.scss";
+
+.searchbar {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  margin-top: 5vh;
+
+  input {
+    height: 30px;
+    width: 100%;
+    border-top-left-radius: 10px;
+    background: transparent;
+    border-style: solid;
+    padding: 0.5rem 1rem;
+    border-color: #61dafb;
+    color: #61dafb;
+    font-size: 1.5rem;
+    border-bottom-left-radius: 10px;
+    border-width: 1px;
+
+    &::placeholder {
+      color: $secondaryColor;
+      opacity: 0.5;
+    }
+
+    &:focus,
+    &:active {
+      outline: none;
+    }
+  }
+
+  button {
+    background: transparent;
+    font-size: 1.5rem;
+    color: $secondaryColor;
+    border-color: $secondaryColor;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 0.5rem 1rem;
+    border-style: solid;
+    height: 48px;
+    transition: 0.2s;
+    cursor: pointer;
+    border-left-width: 0;
+
+    &:hover {
+      background-color: $secondaryColor;
+      color: $primaryColor;
+      transition: 0.2s;
+    }
+  }
+}
