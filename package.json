@@ -1,0 +1,19 @@
+{
+  "name": "wooclap-test",
+  "description": "Test for full stack developer position at wooclap",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "docker:start": "docker-compose up -d",
+    "docker:stop": "docker-compose down",
+    "app": "cd app && yarn start",
+    "api": "cd api && yarn start",
+    "stop:db": "docker-compose down"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0"
+  },
+  "engines": {
+    "node": "12.18.0"
+  }
+}
