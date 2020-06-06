@@ -1,6 +1,7 @@
 import { createServer, plugins } from "restify";
 
 import { Route } from "../types/server";
+import corsMiddleware from "../middleware/cors";
 import { handleError } from "../middleware/error";
 import { createConnection } from "./database";
 
@@ -13,6 +14,8 @@ export default async (routes: Route[]) => {
       version: "1.0.0",
     });
 
+    server.pre(corsMiddleware.preflight);
+    server.use(corsMiddleware.actual);
     server.use(handleError);
     server.use(plugins.acceptParser(server.acceptable));
     server.use(plugins.queryParser());
