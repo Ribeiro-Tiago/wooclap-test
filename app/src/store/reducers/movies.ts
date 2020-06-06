@@ -11,7 +11,7 @@ const initState = {
 export default (state = initState, { payload, type }: Action) => {
   switch (type) {
     case UPDATE_MOVIES: {
-      return { ...payload };
+      return { movies: payload ? [...payload] : [] };
     }
 
     case UPDATE_CURRENT_MOVIE: {
