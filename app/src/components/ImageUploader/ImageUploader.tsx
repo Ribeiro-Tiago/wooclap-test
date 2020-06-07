@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 
 import "./ImageUploader.scss";
-import { File } from "../../types";
 
 interface Props {
   initialSrc: string;
-  onChange: (file: File) => void;
+  setFileUploadRef: (ref: HTMLInputElement) => void;
   err: string;
 }
 
-export default function MovieDetails({ initialSrc, onChange, err }: Props) {
+export default function MovieDetails({
+  err,
+  initialSrc,
+  setFileUploadRef,
+}: Props) {
   const [src, setSrc] = useState(initialSrc);
   let uploader: HTMLInputElement;
 
@@ -19,12 +22,16 @@ export default function MovieDetails({ initialSrc, onChange, err }: Props) {
     const file = ev.target.files[0];
     const reader = new FileReader();
 
-    reader.onload = (e) => {
-      setSrc(e.target?.result as string);
-      onChange(file);
-    };
+    reader.onload = (e) => setSrc(e.target?.result as string);
 
     reader.readAsDataURL(file);
+  };
+
+  const setRef = (ref: any) => {
+    if (ref) {
+      setFileUploadRef(ref);
+      uploader = ref;
+    }
   };
 
   return (
@@ -32,7 +39,7 @@ export default function MovieDetails({ initialSrc, onChange, err }: Props) {
       <input
         type="file"
         name="file"
-        ref={(ref) => ref && (uploader = ref)}
+        ref={setRef}
         onChange={onFileChange}
         accept="image/x-png,image/jpeg"
       />

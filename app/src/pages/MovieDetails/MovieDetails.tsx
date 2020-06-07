@@ -89,7 +89,11 @@ function MovieDetails({
   const renderForm = () => {
     return (
       <form>
-        <ImageUploader initialSrc={formData.img} onChange={() => {}} err="" />
+        <ImageUploader
+          initialSrc={formData.img}
+          setFileUploadRef={(ref) => (fileUploadRef = ref)}
+          err=""
+        />
 
         <FormItem
           elemKey="name"
