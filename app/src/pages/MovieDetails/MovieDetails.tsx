@@ -5,6 +5,7 @@ import "./MovieDetails.scss";
 import { Movie } from "../../types";
 import { FormItem, ImageUploader } from "../../components";
 import { Form, FormErrors } from "../../types/form";
+import { formatDateForInput } from "../../utils/formatters";
 
 interface Props extends RouteComponentProps {
   movie: Movie;
@@ -16,15 +17,6 @@ interface Props extends RouteComponentProps {
   removeMovie: (id: string) => Promise<void>;
   createMovie: (data: FormData) => Promise<void>;
 }
-
-const formatDateForInput = (date?: Date) => {
-  const addLeadZero = (num: number) => `0${num}`.substr(-2);
-  const d = !!date ? new Date(date) : new Date();
-
-  return `${d.getFullYear()}-${addLeadZero(d.getMonth() + 1)}-${addLeadZero(
-    d.getDate(),
-  )}`;
-};
 
 function MovieDetails({
   movie,
