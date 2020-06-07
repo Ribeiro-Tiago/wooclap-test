@@ -1,7 +1,7 @@
 export interface BaseMovie {
   name: string;
   img: string;
-  ratings: number;
+  rating: number;
   releaseDate: Date;
   genre: string;
 }

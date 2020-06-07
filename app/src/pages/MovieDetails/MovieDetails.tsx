@@ -46,7 +46,7 @@ function MovieDetails({
     name: movie?.name || "",
     releaseDate: formatDateForInput(movie?.releaseDate),
     genre: movie?.genre || "",
-    rating: movie?.ratings.toString() || "",
+    rating: movie?.rating.toString() || "",
     img: movie ? movie.img : "/assets/imgs/placeholder.jpg",
   });
 
@@ -57,7 +57,7 @@ function MovieDetails({
           name: movie.name,
           releaseDate: formatDateForInput(movie.releaseDate),
           genre: movie.genre,
-          rating: movie.ratings.toString(),
+          rating: movie.rating.toString(),
           img: movie.img,
         });
       });
