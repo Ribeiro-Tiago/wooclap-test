@@ -30,7 +30,17 @@ export const search = async (searchQuery?: string) => {
 export const getDetails = async (id: ObjectId) => {
   const details = await collection("movies").findOne<Movie>({ _id: id });
 
+  if (!details) {
+    return;
+  }
+
   delete details._id;
 
   return { ...details, id: fromObjectId(id) };
+};
+
+export const deleteMovie = async (id: ObjectId) => {
+  const { value } = await collection("movies").findOneAndDelete({ _id: id });
+
+  return value?.img;
 };
