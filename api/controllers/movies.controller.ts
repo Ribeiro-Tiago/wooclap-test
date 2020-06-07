@@ -35,7 +35,6 @@ export const removeMovie = async ({ params }: Request, res: Response) => {
   }
 
   const imgName = await deleteMovie(id);
-  removeImage("dsaodksa.jpg");
 
   if (!imgName) {
     return res.send(404);
