@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { basename } from "path";
 
 import { getConnection } from "../../config/database";
 import { Movie, NewMovie } from "../../types/movies";
@@ -52,4 +53,19 @@ export const addMovie = async (movie: NewMovie) => {
   delete newMovie._id;
 
   return { ...newMovie, id };
+};
+
+export const getFilename = async (id: ObjectId) => {
+  const filename = await collection("movies").findOne(
+    { _id: id },
+    { projection: { img: 1 } },
+  );
+
+  console.log(filename);
+
+  return basename(filename);
+};
+
+export const replaceMovie = async (id: ObjectId, movie: Movie) => {
+  return await collection("movies").findOneAndReplace({ _id: id }, movie);
 };
