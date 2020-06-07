@@ -49,7 +49,7 @@ function MovieDetails({
     if (!isNew && !movie) {
       getDetails(id).then((movie) => {
         if (!movie) {
-          return history.push("/details/-1");
+          return history.push("/");
         }
 
         setFormData({
