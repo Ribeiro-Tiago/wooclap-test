@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 
 import { getConnection } from "../../config/database";
-import { Movie } from "../types/movies";
+import { Movie, NewMovie } from "../../types/movies";
 import { fromObjectId } from "./utils";
 
 const collection = (name: string) => getConnection().collection(name);
@@ -43,4 +43,10 @@ export const deleteMovie = async (id: ObjectId) => {
   const { value } = await collection("movies").findOneAndDelete({ _id: id });
 
   return value?.img;
+};
+
+export const addMovie = async (movie: NewMovie) => {
+  const { ops } = await collection("movies").insertOne(movie);
+
+  return ops[0];
 };

@@ -1,7 +1,17 @@
 import { Request, Response } from "../types/server";
-import { search, getDetails, deleteMovie } from "../utils/dal/movies";
+import { search, getDetails, deleteMovie, addMovie } from "../utils/dal/movies";
 import { toObjectId } from "../utils/dal/utils";
+import {
+  INVALID_PARAM_ID,
+  INVALID_BODY_FILE,
+  INVALID_BODY,
+} from "../errors/request";
+import {
+  removePublicFile as removeImage,
+  uploadPublicFile as uploadImage,
+} from "../utils/filesystem";
 import { sanitizer as sanitizeInput } from "../utils/sanitnize";
+import { validateCreateBody } from "../utils/validators/movies";
 
 export const getAll = async ({ query }: Request, res: Response) => {
   const sanitized = sanitizeInput(query.search);
@@ -38,4 +48,29 @@ export const removeMovie = async ({ params }: Request, res: Response) => {
   removeImage(imgName);
 
   return res.send(200);
+};
+
+export const createMovie = async ({ files, body }: Request, res: Response) => {
+  const file = files?.file;
+
+  if (!file) {
+    return res.error(INVALID_BODY_FILE);
+  }
+
+  const { validated, errors } = validateCreateBody(body);
+
+  if (errors) {
+    return res.error(INVALID_BODY, errors);
+  }
+
+  const ext = file.type.split("image/")[1];
+  const filename = `${Date.now()}.${ext}`;
+  uploadImage(file.path, filename);
+
+  const newMovie = await addMovie({
+    img: filename,
+    ...validated,
+  });
+
+  return res.json(newMovie);
 };
