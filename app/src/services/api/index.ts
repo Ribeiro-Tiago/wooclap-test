@@ -15,5 +15,9 @@ const _get = async (endpoint: string, method = "get", body?: any) => {
 };
 
 export const searchMovies = async (query: string) => {
-  return await _get(`${MOVIES.getAll}?search=${query}`);
+  return await _get(`${MOVIES.GET_ALL}?search=${query}`);
+};
+
+export const getDetails = async (id: string) => {
+  return await _get(MOVIES.DETAILS.replace(":id", id));
 };
