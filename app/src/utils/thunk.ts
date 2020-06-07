@@ -13,12 +13,12 @@ export const buildWithFetch = (apiFunction: Function, args: any) => (
         dispatch(dispatchable(result));
       }
 
+      dispatch(toggleFetching());
       return result;
     } catch (err) {
       console.error("request err", err);
       dispatch(updateFetchErr(err));
+      dispatch(toggleFetching());
     }
-
-    dispatch(toggleFetching());
   };
 };
