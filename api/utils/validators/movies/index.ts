@@ -21,7 +21,7 @@ export const validateCreateBody = (body: NewMovie) => {
   if (!isValidDate(body.releaseDate)) {
     errors.releaseDate = "releaseDate is invalid";
   } else {
-    validated.releaseDate = isValidDate(body.releaseDate);
+    validated.releaseDate = new Date(body.releaseDate);
   }
 
   if (!isValidNumber(body.rating)) {

@@ -5,7 +5,7 @@ export const handleError = async (req: Request, res: Response, next: Next) => {
     res.statusCode = err.status || 500;
 
     if (!errors) {
-      return res.json(errors);
+      return res.json(err);
     }
 
     const formattedErrors = Object.entries(errors).reduce((accu, curr) => {
