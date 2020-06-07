@@ -2,9 +2,12 @@
 
 .form-group {
   margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
+
+  .form-input {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+  }
 
   label {
     color: $secondaryColor;

@@ -5,7 +5,7 @@ import "./ImageUploader.scss";
 interface Props {
   initialSrc: string;
   setFileUploadRef: (ref: HTMLInputElement) => void;
-  err: string;
+  err?: string;
 }
 
 export default function MovieDetails({
@@ -43,7 +43,7 @@ export default function MovieDetails({
         onChange={onFileChange}
         accept="image/x-png,image/jpeg"
       />
-      <img src={src} alt="Poster" onClick={onClick} />;
+      <img src={src} alt="Poster" onClick={onClick} />
       {!!err && <span className="err">{err}</span>}
     </div>
   );

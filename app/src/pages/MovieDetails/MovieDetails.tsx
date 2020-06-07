@@ -14,6 +14,7 @@ interface Props extends RouteComponentProps {
   getDetails: (id: string) => Promise<Movie>;
   unselectCurrent: () => void;
   removeMovie: (id: string) => Promise<void>;
+  createMovie: (data: FormData) => Promise<void>;
 }
 
 const formatDateForInput = (date?: Date) => {
@@ -33,6 +34,7 @@ function MovieDetails({
   getDetails,
   unselectCurrent,
   removeMovie,
+  createMovie,
 }: Props) {
   const [isEditable] = useState<boolean>(isNew);
   const [formData, setFormData] = useState<Form>({
@@ -42,6 +44,14 @@ function MovieDetails({
     rating: movie?.rating.toString() || "",
     img: movie ? movie.img : "/assets/imgs/placeholder.jpg",
   });
+  const [errs, setErrs] = useState<FormErrors>({
+    genre: "",
+    name: "",
+    rating: "",
+    releaseDate: "",
+    file: "",
+  });
+  let fileUploadRef: HTMLInputElement;
 
   useEffect(() => {
     if (!isNew && !movie) {
@@ -68,6 +78,47 @@ function MovieDetails({
 
   const onSubmit = (ev: React.MouseEvent) => {
     ev.preventDefault();
+    const errs: FormErrors = {};
+
+    if (!formData.genre) {
+      errs.genre = "Genre is required";
+    }
+
+    if (!formData.name) {
+      errs.name = "Name is required";
+    }
+
+    if (!formData.releaseDate) {
+      errs.releaseDate = "Realse date is invalid";
+    }
+
+    if (!formData.rating) {
+      errs.rating = "Rating is required";
+    }
+
+    if (isNew && !formData.file) {
+      errs.file = "Poster is required";
+    }
+
+    setErrs(errs);
+
+    if (Object.keys(errs).length > 0) {
+      return;
+    }
+
+    const data = new FormData();
+    const file = (fileUploadRef as any).files[0];
+
+    if (file) {
+      data.append("file", file);
+    }
+
+    data.append("name", formData.name);
+    data.append("genre", formData.genre);
+    data.append("releaseDate", formData.releaseDate);
+    data.append("rating", formData.rating);
+
+    createMovie(data);
   };
 
   const onRemove = async () => {
@@ -85,7 +136,7 @@ function MovieDetails({
         <ImageUploader
           initialSrc={formData.img}
           setFileUploadRef={(ref) => (fileUploadRef = ref)}
-          err=""
+          err={errs.file}
         />
 
         <FormItem
@@ -94,6 +145,7 @@ function MovieDetails({
           label="Name"
           onChange={onFormChange}
           value={formData.name}
+          err={errs.name}
         />
 
         <FormItem
@@ -103,6 +155,7 @@ function MovieDetails({
           value={formData.releaseDate}
           onChange={onFormChange}
           inputType="date"
+          err={errs.releaseDate}
         />
 
         <FormItem
@@ -111,6 +164,7 @@ function MovieDetails({
           isDisabled={!isEditable}
           value={formData.rating}
           onChange={onFormChange}
+          err={errs.rating}
         />
 
         <FormItem
@@ -119,6 +173,7 @@ function MovieDetails({
           isDisabled={!isEditable}
           value={formData.genre}
           onChange={onFormChange}
+          err={errs.genre}
         />
 
         <div className="buttonWrapper">
