@@ -33,7 +33,7 @@ function MovieDetails({
     name: movie?.name || "",
     releaseDate: formatDateForInput(movie?.releaseDate),
     genre: movie?.genre || "",
-    rating: movie?.rating.toString() || "",
+    rating: movie?.rating || "",
     img: movie ? movie.img : "/assets/imgs/placeholder.jpg",
   });
   const [errs, setErrs] = useState<FormErrors>({
@@ -48,11 +48,15 @@ function MovieDetails({
   useEffect(() => {
     if (!isNew && !movie) {
       getDetails(id).then((movie) => {
+        if (!movie) {
+          return history.push("/details/-1");
+        }
+
         setFormData({
           name: movie.name,
           releaseDate: formatDateForInput(movie.releaseDate),
           genre: movie.genre,
-          rating: movie.rating.toString(),
+          rating: movie.rating,
           img: movie.img,
         });
       });

@@ -21,7 +21,7 @@ export const search = async (searchQuery?: string) => {
     id: movie._id.toString(),
     img: movie.img,
     name: movie.name,
-    rating: movie.rating,
+    rating: movie.rating.toString(),
     releaseDate: movie.releaseDate,
     genre: movie.genre,
   }));
