@@ -10,6 +10,7 @@ export const buildWithFetch = (apiFunction: Function, ...args: string[]) => (
       const result = await apiFunction(args);
 
       dispatch(dispatchable(result));
+      return result;
     } catch (err) {
       dispatch(updateFetchErr(err));
     }

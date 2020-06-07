@@ -1,13 +1,16 @@
-import React, { useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import "./MovieDetails.scss";
 import { Movie } from "../../types";
 import { FormItem } from "../../components";
 
-interface Props {
+interface Props extends RouteComponentProps {
   movie: Movie;
   isFetching: boolean;
+  isNew: boolean;
+  id: string;
+  getDetails: (id: string) => Promise<Movie>;
 }
 
 type Form = {
@@ -15,6 +18,7 @@ type Form = {
   releaseDate: string;
   genre: string;
   name: string;
+  img: string;
 };
 
 const formatDateForInput = (date?: Date) => {
@@ -26,16 +30,29 @@ const formatDateForInput = (date?: Date) => {
   )}`;
 };
 
-export default function MovieDetails({ movie }: Props) {
-  const { id } = useParams();
-  const history = useHistory();
-  const [isEditable, setEditable] = useState<boolean>(id === "-1");
+function MovieDetails({ movie, isNew, history, id, getDetails }: Props) {
+  const [isEditable] = useState<boolean>(isNew);
   const [formData, setFormData] = useState<Form>({
-    name: movie?.name,
+    name: movie?.name || "",
     releaseDate: formatDateForInput(movie?.releaseDate),
-    genre: movie?.genre,
-    rating: movie?.ratings.toString(),
+    genre: movie?.genre || "",
+    rating: movie?.ratings.toString() || "",
+    img: movie ? movie.img : "/assets/imgs/placeholder.jpg",
   });
+
+  useEffect(() => {
+    if (!isNew && !movie) {
+      getDetails(id).then((movie) => {
+        setFormData({
+          name: movie.name,
+          releaseDate: formatDateForInput(movie.releaseDate),
+          genre: movie.genre,
+          rating: movie.ratings.toString(),
+          img: movie.img,
+        });
+      });
+    }
+  }, []);
 
   const goBack = () => history.push("/");
 
@@ -54,10 +71,7 @@ export default function MovieDetails({ movie }: Props) {
   const renderForm = () => {
     return (
       <form>
-        <img
-          src={movie ? movie.img : `/assets/imgs/placeholder.jpg`}
-          alt="Poster"
-        />
+        <img src={formData.img} alt="Poster" />
 
         <FormItem
           elemKey="name"
@@ -115,3 +129,5 @@ export default function MovieDetails({ movie }: Props) {
     </div>
   );
 }
+
+export default withRouter(MovieDetails);
