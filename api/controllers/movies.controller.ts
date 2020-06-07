@@ -1,6 +1,8 @@
 import { Request, Response } from "../types/server";
-import { search, getDetails } from "../utils/dal/movies";
+import { search, getDetails, deleteMovie } from "../utils/dal/movies";
 import { toObjectId } from "../utils/dal/utils";
+import { INVALID_PARAM_ID } from "../errors/request";
+import { removePublicFile as removeImage } from "../utils/filesystem";
 
 const sanitizeInput = (input?: string) => {
   return input ? input.trim() : "";
@@ -18,10 +20,27 @@ export const movieDetails = async ({ params }: Request, res: Response) => {
   const id = toObjectId(sanitizeInput(params.id));
 
   if (!id) {
-    return res.error({ message: "id param is invalid", status: 400 });
+    return res.error(INVALID_PARAM_ID);
   }
-
   const details = await getDetails(id);
 
-  return res.json(details);
+  return !!details ? res.json(details) : res.send(404);
+};
+
+export const removeMovie = async ({ params }: Request, res: Response) => {
+  const id = toObjectId(sanitizeInput(params.id));
+
+  if (!id) {
+    return res.error(INVALID_PARAM_ID);
+  }
+
+  const imgName = await deleteMovie(id);
+
+  if (!imgName) {
+    return res.send(404);
+  }
+
+  removeImage(imgName);
+
+  return res.send(200);
 };

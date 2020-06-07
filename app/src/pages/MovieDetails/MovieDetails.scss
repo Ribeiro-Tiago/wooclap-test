@@ -24,6 +24,9 @@
     margin-top: 5vh;
     border-top: 1px solid #f7f7f7;
     padding-top: 2vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     button {
       padding: 0.75rem 1.5rem;
@@ -42,18 +45,9 @@
         @include buttonColor(#f7f7f7, $secondaryColor);
         margin-left: 10px;
       }
-    }
 
-    a {
-      color: #f7f7f7;
-      margin-left: 20px;
-      text-decoration: none;
-
-      &:hover,
-      &:active,
-      &:focus {
-        color: #f7f7f7;
-        text-decoration: none;
+      &.remove {
+        @include buttonColor(red, #fb4747);
       }
     }
   }

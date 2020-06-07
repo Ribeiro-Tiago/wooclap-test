@@ -1,4 +1,4 @@
-import { UPDATE_MOVIES, UPDATE_CURRENT_MOVIE } from "../types";
+import { UPDATE_MOVIES, UPDATE_CURRENT_MOVIE, DELETE_MOVIE } from "../types";
 import { ReducerAction } from "../../types/store";
 import { Movie } from "../../types";
 
@@ -17,6 +17,13 @@ export default (state = initState, { payload, type }: Action) => {
 
     case UPDATE_CURRENT_MOVIE: {
       return { ...state, current: payload };
+    }
+
+    case DELETE_MOVIE: {
+      return {
+        current: state.current,
+        movies: state.movies.filter(({ id }) => id !== payload),
+      };
     }
 
     default:

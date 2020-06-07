@@ -11,6 +11,8 @@ interface Props extends RouteComponentProps {
   isNew: boolean;
   id: string;
   getDetails: (id: string) => Promise<Movie>;
+  unselectCurrent: () => void;
+  removeMovie: (id: string) => Promise<void>;
 }
 
 type Form = {
@@ -30,7 +32,15 @@ const formatDateForInput = (date?: Date) => {
   )}`;
 };
 
-function MovieDetails({ movie, isNew, history, id, getDetails }: Props) {
+function MovieDetails({
+  movie,
+  isNew,
+  history,
+  id,
+  getDetails,
+  unselectCurrent,
+  removeMovie,
+}: Props) {
   const [isEditable] = useState<boolean>(isNew);
   const [formData, setFormData] = useState<Form>({
     name: movie?.name || "",
@@ -54,7 +64,10 @@ function MovieDetails({ movie, isNew, history, id, getDetails }: Props) {
     }
   }, []);
 
-  const goBack = () => history.push("/");
+  const goBack = () => {
+    unselectCurrent();
+    history.push("/");
+  };
 
   const onFormChange = (key: string, value: string) => {
     setFormData({ ...formData, [key]: value });
@@ -62,6 +75,11 @@ function MovieDetails({ movie, isNew, history, id, getDetails }: Props) {
 
   const onSubmit = (ev: React.MouseEvent) => {
     ev.preventDefault();
+  };
+
+  const onRemove = async () => {
+    await removeMovie(id);
+    history.push("/");
   };
 
   const renderTitle = () => {
@@ -107,15 +125,23 @@ function MovieDetails({ movie, isNew, history, id, getDetails }: Props) {
         />
 
         <div className="buttonWrapper">
-          {isEditable && (
-            <button type="submit" onClick={onSubmit}>
-              Submit
+          <div>
+            {isEditable && (
+              <button type="submit" onClick={onSubmit}>
+                Submit
+              </button>
+            )}
+
+            <button type="button" onClick={goBack}>
+              Back
+            </button>
+          </div>
+
+          {!isNew && (
+            <button type="button" className="remove" onClick={onRemove}>
+              Remove
             </button>
           )}
-
-          <button type="button" onClick={goBack}>
-            Back
-          </button>
         </div>
       </form>
     );

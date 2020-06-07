@@ -4,9 +4,9 @@ import { RouteComponentProps } from "react-router-dom";
 import MovieDetails from "./MovieDetails";
 import { State } from "../../types/store";
 
-import { updateCurrent } from "../../store/actions/movies";
+import { updateCurrent, deleteMovie } from "../../store/actions/movies";
 import { buildWithFetch } from "../../utils/thunk";
-import { getDetails } from "../../services/api";
+import { getDetails, removeMovie } from "../../services/api";
 
 const mapStateToProps = (
   { movies, async }: State,
@@ -26,6 +26,12 @@ const mapDispatchToProps = (dispatch: Function) => ({
     const withFetch = buildWithFetch(getDetails, id);
 
     return dispatch(withFetch(updateCurrent));
+  },
+  unselectCurrent: () => dispatch(updateCurrent()),
+  removeMovie: (id: string) => {
+    const withFetch = buildWithFetch(removeMovie, id);
+
+    return dispatch(withFetch(() => deleteMovie(id)));
   },
 });
 
