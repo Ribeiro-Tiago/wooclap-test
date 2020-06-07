@@ -3,4 +3,5 @@ export interface BaseMovie {
   img: string;
   ratings: number;
   releaseDate: Date;
+  genre: string;
 }

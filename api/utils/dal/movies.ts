@@ -23,6 +23,7 @@ export const search = async (searchQuery?: string) => {
     name: movie.name,
     ratings: movie.ratings,
     releaseDate: movie.releaseDate,
+    genre: movie.genre,
   }));
 };
 
