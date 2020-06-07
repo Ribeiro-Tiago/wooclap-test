@@ -4,6 +4,7 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import "./MovieDetails.scss";
 import { Movie } from "../../types";
 import { FormItem, ImageUploader } from "../../components";
+import { Form, FormErrors } from "../../types/form";
 
 interface Props extends RouteComponentProps {
   movie: Movie;
@@ -14,14 +15,6 @@ interface Props extends RouteComponentProps {
   unselectCurrent: () => void;
   removeMovie: (id: string) => Promise<void>;
 }
-
-type Form = {
-  rating: string;
-  releaseDate: string;
-  genre: string;
-  name: string;
-  img: string;
-};
 
 const formatDateForInput = (date?: Date) => {
   const addLeadZero = (num: number) => `0${num}`.substr(-2);
