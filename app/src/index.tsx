@@ -3,13 +3,13 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
 import "./index.scss";
-import App from "./pages/Home/Home";
+import Navigator from "./Navigator";
 import store from "./store";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Navigator />
     </Provider>
   </React.StrictMode>,
   document.getElementById("root"),

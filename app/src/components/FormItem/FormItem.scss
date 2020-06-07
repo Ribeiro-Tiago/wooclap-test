@@ -1,0 +1,35 @@
+@import "../../scss/variables.scss";
+
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+
+  label {
+    color: $secondaryColor;
+    font-size: 1.5rem;
+    margin-right: 10px;
+  }
+
+  input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid $secondaryColor;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    height: 30px;
+    color: $secondaryColor;
+    outline: 0;
+    text-indent: 0.5rem;
+
+    &:disabled {
+      border: 0;
+    }
+
+    &:active,
+    &:focus {
+      outline: 0;
+    }
+  }
+}

@@ -10,7 +10,7 @@ interface Props {
 
 export default function MovieItem({ movie, onClick }: Props) {
   return (
-    <div key={movie._id} className="item" onClick={() => onClick(movie)}>
+    <div className="item" onClick={() => onClick(movie)}>
       <img src={movie.img} alt="" />
 
       <p>{movie.name}</p>

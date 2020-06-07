@@ -1,5 +1,7 @@
+import { ObjectId } from "mongodb";
+
 import { BaseMovie } from "../../../types/movies";
 
 export interface Movie extends BaseMovie {
-  id: string;
+  _id: ObjectId;
 }

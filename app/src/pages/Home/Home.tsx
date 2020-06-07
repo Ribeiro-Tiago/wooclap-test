@@ -1,6 +1,5 @@
 import React from "react";
 
-import "./Home.scss";
 import { SearchBar, MovieList } from "../../components";
 
 export default function Home() {
