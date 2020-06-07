@@ -1,6 +1,7 @@
 import { Request, Response } from "../types/server";
 import { search, getDetails } from "../utils/dal/movies";
 import { toObjectId } from "../utils/dal/utils";
+import { INVALID_PARAM_ID } from "../errors/request";
 
 const sanitizeInput = (input?: string) => {
   return input ? input.trim() : "";
@@ -18,7 +19,9 @@ export const movieDetails = async ({ params }: Request, res: Response) => {
   const id = toObjectId(sanitizeInput(params.id));
 
   if (!id) {
-    return res.error({ message: "id param is invalid", status: 400 });
+    return res.error(INVALID_PARAM_ID);
+  }
+  const details = await getDetails(id);
   }
 
   const details = await getDetails(id);
