@@ -1,0 +1,10 @@
+.img-uploader {
+  input[type="file"] {
+    display: none;
+  }
+
+  img {
+    cursor: pointer;
+    max-width: 200px;
+  }
+}

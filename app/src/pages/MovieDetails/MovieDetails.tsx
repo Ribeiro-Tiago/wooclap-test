@@ -3,7 +3,7 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import "./MovieDetails.scss";
 import { Movie } from "../../types";
-import { FormItem } from "../../components";
+import { FormItem, ImageUploader } from "../../components";
 
 interface Props extends RouteComponentProps {
   movie: Movie;
@@ -89,7 +89,7 @@ function MovieDetails({
   const renderForm = () => {
     return (
       <form>
-        <img src={formData.img} alt="Poster" />
+        <ImageUploader initialSrc={formData.img} onChange={() => {}} err="" />
 
         <FormItem
           elemKey="name"
