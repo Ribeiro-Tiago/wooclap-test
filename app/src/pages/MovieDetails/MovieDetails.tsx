@@ -64,12 +64,7 @@ function MovieDetails({
     history.push("/");
   };
 
-  const onFormChange = (key: string, value: string) => {
-    setFormData({ ...formData, [key]: value });
-  };
-
-  const onSubmit = (ev: React.MouseEvent) => {
-    ev.preventDefault();
+  const isFormValid = () => {
     const errs: FormErrors = {};
 
     if (!formData.genre) {
@@ -88,13 +83,23 @@ function MovieDetails({
       errs.rating = "Rating is required";
     }
 
-    if (isNew && !formData.file) {
+    if (isNew && !(fileUploadRef as any).files[0]) {
       errs.file = "Poster is required";
     }
 
     setErrs(errs);
 
-    if (Object.keys(errs).length > 0) {
+    return Object.keys(errs).length === 0;
+  };
+
+  const onFormChange = (key: string, value: string) => {
+    setFormData({ ...formData, [key]: value });
+  };
+
+  const onSubmit = async (ev: React.MouseEvent) => {
+    ev.preventDefault();
+
+    if (!isFormValid()) {
       return;
     }
 
@@ -110,7 +115,8 @@ function MovieDetails({
     data.append("releaseDate", formData.releaseDate);
     data.append("rating", formData.rating);
 
-    createMovie(data);
+    await createMovie(data);
+    goBack();
   };
 
   const onRemove = async () => {

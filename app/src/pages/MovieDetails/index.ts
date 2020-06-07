@@ -4,7 +4,11 @@ import { RouteComponentProps } from "react-router-dom";
 import MovieDetails from "./MovieDetails";
 import { State } from "../../types/store";
 
-import { updateCurrent, deleteMovie } from "../../store/actions/movies";
+import {
+  updateCurrent,
+  deleteMovie,
+  addMovie,
+} from "../../store/actions/movies";
 import { buildWithFetch } from "../../utils/thunk";
 import { getDetails, removeMovie, createMovie } from "../../services/api";
 
@@ -36,7 +40,7 @@ const mapDispatchToProps = (dispatch: Function) => ({
   createMovie: (data: FormData) => {
     const withFetch = buildWithFetch(createMovie, data);
 
-    return dispatch(withFetch());
+    return dispatch(withFetch(addMovie));
   },
 });
 
