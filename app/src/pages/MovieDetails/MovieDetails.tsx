@@ -54,7 +54,10 @@ export default function MovieDetails({ movie }: Props) {
   const renderForm = () => {
     return (
       <form>
-        <img src={movie.img} alt="Poster" />
+        <img
+          src={movie ? movie.img : `/assets/imgs/placeholder.jpg`}
+          alt="Poster"
+        />
 
         <FormItem
           elemKey="name"
