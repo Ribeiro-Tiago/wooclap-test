@@ -2,7 +2,8 @@ import React from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 
 import "./Home.scss";
-import { MovieDetails, SearchBar, MovieList } from "../../components";
+import { SearchBar, MovieList } from "../../components";
+import MovieDetails from "../MovieDetails";
 
 export default function Home() {
   return (

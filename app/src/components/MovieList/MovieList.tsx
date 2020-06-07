@@ -3,6 +3,7 @@ import React from "react";
 import "./MovieList.scss";
 import { Movie } from "../../types";
 import MovieItem from "../MovieItem/MovieItem";
+import { useHistory } from "react-router-dom";
 
 interface Props {
   movies: Movie[];
@@ -10,11 +11,18 @@ interface Props {
 }
 
 export default function MovieList({ movies, updateCurrent }: Props) {
+  const history = useHistory();
+
+  const onMovieClick = (movie: Movie) => {
+    updateCurrent(movie);
+    history.push(`/details/${movie.id}`);
+  };
+
   const renderMovies = () => {
     return (
       <div className="container">
         {movies.map((movie) => (
-          <MovieItem key={movie.id} movie={movie} onClick={updateCurrent} />
+          <MovieItem key={movie.id} movie={movie} onClick={onMovieClick} />
         ))}
       </div>
     );
