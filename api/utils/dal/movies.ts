@@ -47,6 +47,9 @@ export const deleteMovie = async (id: ObjectId) => {
 
 export const addMovie = async (movie: NewMovie) => {
   const { ops } = await collection("movies").insertOne(movie);
+  const newMovie = ops[0];
+  const id = newMovie._id;
+  delete newMovie._id;
 
-  return ops[0];
+  return { ...newMovie, id };
 };
