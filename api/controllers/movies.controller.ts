@@ -1,12 +1,7 @@
 import { Request, Response } from "../types/server";
 import { search, getDetails, deleteMovie } from "../utils/dal/movies";
 import { toObjectId } from "../utils/dal/utils";
-import { INVALID_PARAM_ID } from "../errors/request";
-import { removePublicFile as removeImage } from "../utils/filesystem";
-
-const sanitizeInput = (input?: string) => {
-  return input ? input.trim() : "";
-};
+import { sanitizer as sanitizeInput } from "../utils/sanitnize";
 
 export const getAll = async ({ query }: Request, res: Response) => {
   const sanitized = sanitizeInput(query.search);
