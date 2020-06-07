@@ -1,4 +1,4 @@
 export enum MOVIES {
-  GET_ALL = "movies",
+  BASE = "movies",
   DETAILS = "movies/:id",
 }

@@ -14,10 +14,20 @@
 .details {
   form {
     margin-top: 5vh;
-  }
 
-  img {
-    max-width: 200px;
+    .has-error {
+      input {
+        border-bottom-color: $errorColor;
+      }
+
+      img {
+        border: 1px solid $errorColor;
+      }
+
+      span {
+        color: $errorColor;
+      }
+    }
   }
 
   .buttonWrapper {

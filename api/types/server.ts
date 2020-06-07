@@ -14,7 +14,7 @@ export interface CustomError {
 export interface Request extends RestifyRequest {}
 
 export interface Response extends RestifyResponse {
-  error: (err: CustomError) => void;
+  error: (err: CustomError, errors?: object) => void;
 }
 
 export interface Route {

@@ -9,6 +9,7 @@ interface Props {
   isDisabled: boolean;
   elemKey: string;
   inputType?: "text" | "date";
+  err?: string;
 }
 
 export default function FormItem({
@@ -18,17 +19,23 @@ export default function FormItem({
   isDisabled,
   elemKey,
   inputType = "text",
+  err,
 }: Props) {
   return (
-    <div className="form-group">
-      <label htmlFor={elemKey}>{label}:</label>
-      <input
-        name={elemKey}
-        type={inputType}
-        value={value}
-        onChange={({ currentTarget }) => onChange(elemKey, currentTarget.value)}
-        disabled={isDisabled}
-      />
+    <div className={`form-group ${!!err ? "has-error" : ""}`}>
+      <div className="form-input">
+        <label htmlFor={elemKey}>{label}:</label>
+        <input
+          name={elemKey}
+          type={inputType}
+          value={value}
+          onChange={({ currentTarget }) => {
+            onChange(elemKey, currentTarget.value);
+          }}
+          disabled={isDisabled}
+        />
+      </div>
+      {err && <span>{err}</span>}
     </div>
   );
 }
