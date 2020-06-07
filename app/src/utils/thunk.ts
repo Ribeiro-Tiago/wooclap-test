@@ -1,7 +1,7 @@
 import { toggleFetching, updateFetchErr } from "../store/actions/async";
 
-export const buildWithFetch = (apiFunction: Function, ...args: string[]) => (
-  dispatchable: Function,
+export const buildWithFetch = (apiFunction: Function, args: any) => (
+  dispatchable?: Function,
 ) => {
   return async (dispatch: Function) => {
     dispatch(toggleFetching());
@@ -9,9 +9,13 @@ export const buildWithFetch = (apiFunction: Function, ...args: string[]) => (
     try {
       const result = await apiFunction(args);
 
-      dispatch(dispatchable(result));
+      if (dispatchable) {
+        dispatch(dispatchable(result));
+      }
+
       return result;
     } catch (err) {
+      console.error("request err", err);
       dispatch(updateFetchErr(err));
     }
 
