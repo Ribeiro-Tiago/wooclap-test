@@ -6,7 +6,7 @@ type Action = ReducerAction<Movie[] | Movie>;
 
 const initState = {
   movies: [],
-  currentMovie: undefined,
+  current: undefined,
 };
 
 export default (state = initState, { payload, type }: Action) => {
@@ -16,7 +16,7 @@ export default (state = initState, { payload, type }: Action) => {
     }
 
     case UPDATE_CURRENT_MOVIE: {
-      return { ...state, currentMovie: payload };
+      return { ...state, current: payload };
     }
 
     default:

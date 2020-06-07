@@ -7,6 +7,7 @@ export interface State {
   };
   movies: {
     movies: Movie[];
+    current: Movie;
   };
 }
 
