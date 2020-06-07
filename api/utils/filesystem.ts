@@ -29,3 +29,7 @@ export const uploadPublicFile = (tmpFilePath: string, filename: string) => {
 
   return path;
 };
+
+export const buildPublicPath = (filename: string) => {
+  return `${process.env.APP_ORIGIN}/assets/${filename}`;
+};

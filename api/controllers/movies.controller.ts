@@ -9,6 +9,7 @@ import {
 import {
   removePublicFile as removeImage,
   uploadPublicFile as uploadImage,
+  buildPublicPath,
 } from "../utils/filesystem";
 import { sanitizer as sanitizeInput } from "../utils/sanitnize";
 import { validateCreateBody } from "../utils/validators/movies";
@@ -68,7 +69,7 @@ export const createMovie = async ({ files, body }: Request, res: Response) => {
   uploadImage(file.path, filename);
 
   const newMovie = await addMovie({
-    img: filename,
+    img: buildPublicPath(filename),
     ...validated,
   });
 
