@@ -18,11 +18,7 @@ export default function MovieDetails({
   const [src, setSrc] = useState(initialSrc);
   let uploader: HTMLInputElement;
 
-  useEffect(() => {
-    if (initialSrc !== src) {
-      setSrc(initialSrc);
-    }
-  }, [src, initialSrc]);
+  useEffect(() => setSrc(initialSrc), [initialSrc]);
 
   const onClick = () => uploader.click();
 
