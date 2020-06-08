@@ -5,6 +5,7 @@ import "./ImageUploader.scss";
 interface Props {
   initialSrc: string;
   setFileUploadRef: (ref: HTMLInputElement) => void;
+  isDisabled: boolean;
   err?: string;
 }
 
@@ -12,6 +13,7 @@ export default function MovieDetails({
   err,
   initialSrc,
   setFileUploadRef,
+  isDisabled,
 }: Props) {
   const [src, setSrc] = useState(initialSrc);
   let uploader: HTMLInputElement;
@@ -41,7 +43,10 @@ export default function MovieDetails({
   };
 
   return (
-    <div className={`img-uploader ${!!err ? "has-error" : ""}`}>
+    <div
+      className={`img-uploader ${!!err ? "has-error" : ""} ${
+        isDisabled ? "disabled" : ""
+      }`}>
       <input
         type="file"
         name="file"

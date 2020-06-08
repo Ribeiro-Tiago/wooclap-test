@@ -5,6 +5,13 @@
     }
   }
 
+  &.disabled {
+    img {
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+
   input[type="file"] {
     display: none;
   }

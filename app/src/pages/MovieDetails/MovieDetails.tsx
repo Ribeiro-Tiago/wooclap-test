@@ -167,6 +167,7 @@ function MovieDetails({
           initialSrc={formData.img}
           setFileUploadRef={(ref) => (fileUploadRef = ref)}
           err={errs.file}
+          isDisabled={!isEditable}
         />
 
         <FormItem
