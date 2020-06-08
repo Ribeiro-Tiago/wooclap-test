@@ -1,10 +1,20 @@
 import { Request, Response } from "../types/server";
-import { search, getDetails } from "../utils/dal/movies";
-import { toObjectId } from "../utils/dal/utils";
-
-const sanitizeInput = (input?: string) => {
-  return input ? input.trim() : "";
-};
+import {
+  search,
+  getDetails,
+  deleteMovie,
+  addMovie,
+  replaceMovie,
+  getFilename,
+} from "../utils/dal/movies";
+import { INVALID_PARAM_ID, INVALID_BODY } from "../errors/request";
+import {
+  removePublicFile as removeImage,
+  uploadPublicFile as uploadImage,
+  buildPublicPath,
+} from "../utils/filesystem";
+import { sanitizer as sanitizeInput } from "../utils/sanitnize";
+import { validateBody, validateParams } from "../utils/validators/movies";
 
 export const getAll = async ({ query }: Request, res: Response) => {
   const sanitized = sanitizeInput(query.search);
@@ -15,13 +25,87 @@ export const getAll = async ({ query }: Request, res: Response) => {
 };
 
 export const movieDetails = async ({ params }: Request, res: Response) => {
-  const id = toObjectId(sanitizeInput(params.id));
+  const id = validateParams(params);
 
   if (!id) {
-    return res.error({ message: "id param is invalid", status: 400 });
+    return res.error(INVALID_PARAM_ID);
   }
-
   const details = await getDetails(id);
 
-  return res.json(details);
+  return !!details ? res.json(details) : res.send(404);
+};
+
+export const removeMovie = async ({ params }: Request, res: Response) => {
+  const id = validateParams(params);
+
+  if (!id) {
+    return res.error(INVALID_PARAM_ID);
+  }
+
+  const imgName = await deleteMovie(id);
+
+  if (!imgName) {
+    return res.send(404);
+  }
+
+  removeImage(imgName);
+
+  return res.send(200);
+};
+
+export const createMovie = async ({ files, body }: Request, res: Response) => {
+  const file = files?.file;
+
+  const { validated, errors } = validateBody(body);
+
+  if (errors) {
+    return res.error(INVALID_BODY, errors);
+  }
+
+  const filename = handleUploadFile(file);
+  const newMovie = await addMovie({
+    img: buildPublicPath(filename),
+    ...validated,
+  });
+
+  res.status(201);
+  return res.json(newMovie);
+};
+
+export const updateMovie = async (
+  { files, body, params }: Request,
+  res: Response,
+) => {
+  const id = validateParams(params);
+
+  if (!id) {
+    return res.error(INVALID_PARAM_ID);
+  }
+
+  const { validated, errors } = validateBody(body);
+
+  if (errors) {
+    return res.error(INVALID_BODY, errors);
+  }
+
+  let filename = await getFilename(id);
+  if (files?.file) {
+    removeImage(filename);
+    filename = handleUploadFile(files.file);
+  }
+
+  const updatedMovie = await replaceMovie(id, {
+    img: buildPublicPath(filename),
+    ...validated,
+  });
+
+  return res.json(updatedMovie);
+};
+
+const handleUploadFile = (file: any) => {
+  const ext = file.type.split("image/")[1];
+  const filename = `${Date.now()}.${ext}`;
+  uploadImage(file.path, filename);
+
+  return filename;
 };

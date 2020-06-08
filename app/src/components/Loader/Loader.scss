@@ -1,0 +1,33 @@
+@import "../../scss/variables.scss";
+
+.loader-wrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 99999;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .loader {
+    border: 12px solid $primaryColor;
+    border-top: 12px solid $secondaryColor;
+    border-radius: 40%;
+    border-bottom: 12px solid $secondaryColor;
+    width: 60px;
+    height: 64px;
+    animation: spin 1.5s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

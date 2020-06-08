@@ -14,16 +14,29 @@
 .details {
   form {
     margin-top: 5vh;
-  }
 
-  img {
-    max-width: 200px;
+    .has-error {
+      input {
+        border-bottom-color: $errorColor;
+      }
+
+      img {
+        border: 1px solid $errorColor;
+      }
+
+      span {
+        color: $errorColor;
+      }
+    }
   }
 
   .buttonWrapper {
     margin-top: 5vh;
     border-top: 1px solid #f7f7f7;
     padding-top: 2vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     button {
       padding: 0.75rem 1.5rem;
@@ -36,24 +49,17 @@
 
       &[type="submit"] {
         @include buttonColor($secondaryColor, $secondaryColor);
+        margin-right: 10px;
       }
 
       &[type="button"] {
         @include buttonColor(#f7f7f7, $secondaryColor);
-        margin-left: 10px;
+        margin-right: 10px;
       }
-    }
 
-    a {
-      color: #f7f7f7;
-      margin-left: 20px;
-      text-decoration: none;
-
-      &:hover,
-      &:active,
-      &:focus {
-        color: #f7f7f7;
-        text-decoration: none;
+      &.remove {
+        @include buttonColor(red, #fb4747);
+        margin-right: 0;
       }
     }
   }

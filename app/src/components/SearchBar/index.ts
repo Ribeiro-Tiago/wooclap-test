@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 
 import SearchBar from "./SearchBar";
 import { updateMovies } from "../../store/actions/movies";
-import { searchMovies } from "../../services/api";
+import { searchMovies } from "../../services/api/movies";
 import { State } from "../../types/store";
 import { buildWithFetch } from "../../utils/thunk";
 

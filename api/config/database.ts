@@ -19,7 +19,6 @@ export const createConnection = async () => {
   const client = await MongoClient.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    appname: "movies",
   });
 
   db = client.db(MONGO_DATABASE);

@@ -1,0 +1,25 @@
+.img-uploader {
+  &.has-error {
+    img {
+      margin-bottom: 5px;
+    }
+  }
+
+  &.disabled {
+    img {
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  img {
+    cursor: pointer;
+    max-width: 200px;
+    display: block;
+    margin-bottom: 10px;
+  }
+}
