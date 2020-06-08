@@ -16,7 +16,7 @@ import {
   removeMovie,
   createMovie,
   updateMovie,
-} from "../../services/api";
+} from "../../services/api/movies";
 
 const mapStateToProps = (
   { movies, async }: State,
