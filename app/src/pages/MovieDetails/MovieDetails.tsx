@@ -16,6 +16,7 @@ interface Props extends RouteComponentProps {
   unselectCurrent: () => void;
   removeMovie: (id: string) => Promise<void>;
   createMovie: (data: FormData) => Promise<void>;
+  updateMovie: (id: string, data: FormData) => Promise<void>;
 }
 
 function MovieDetails({
@@ -27,8 +28,9 @@ function MovieDetails({
   unselectCurrent,
   removeMovie,
   createMovie,
+  updateMovie,
 }: Props) {
-  const [isEditable] = useState<boolean>(isNew);
+  const [isEditable, setEditable] = useState<boolean>(isNew);
   const [formData, setFormData] = useState<Form>({
     name: movie?.name || "",
     releaseDate: formatDateForInput(movie?.releaseDate),
@@ -46,6 +48,7 @@ function MovieDetails({
   let fileUploadRef: HTMLInputElement;
 
   useEffect(() => {
+    console.log("effect");
     if (!isNew && !movie) {
       getDetails(id).then((movie) => {
         if (!movie) {
@@ -119,8 +122,13 @@ function MovieDetails({
     data.append("releaseDate", formData.releaseDate);
     data.append("rating", formData.rating);
 
-    await createMovie(data);
-    goBack();
+    if (isNew) {
+      await createMovie(data);
+    } else {
+      await updateMovie(id, data);
+    }
+
+    // goBack();
   };
 
   const onRemove = async () => {
@@ -128,8 +136,29 @@ function MovieDetails({
     history.push("/");
   };
 
+  const onEdit = (ev: React.MouseEvent) => {
+    ev.preventDefault();
+    setEditable(!isEditable);
+  };
+
   const renderTitle = () => {
     return <h1>{!movie ? "Create new movie" : "Movie Details"}</h1>;
+  };
+
+  const renderSubmitButton = () => {
+    if (isEditable) {
+      return (
+        <button type="submit" onClick={(ev) => onSubmit(ev)}>
+          Submit
+        </button>
+      );
+    }
+
+    return (
+      <button type="button" onClick={onEdit}>
+        Edit movie
+      </button>
+    );
   };
 
   const renderForm = () => {
@@ -180,11 +209,7 @@ function MovieDetails({
 
         <div className="buttonWrapper">
           <div>
-            {isEditable && (
-              <button type="submit" onClick={onSubmit}>
-                Submit
-              </button>
-            )}
+            {renderSubmitButton()}
 
             <button type="button" onClick={goBack}>
               Back
