@@ -6,6 +6,7 @@ import { Movie } from "../../types";
 import { FormItem, ImageUploader } from "../../components";
 import { Form, FormErrors } from "../../types/form";
 import { formatDateForInput } from "../../utils/formatters";
+import { ROUTES } from "../../selectors/routes";
 
 interface Props extends RouteComponentProps {
   movie: Movie;
@@ -16,6 +17,7 @@ interface Props extends RouteComponentProps {
   unselectCurrent: () => void;
   removeMovie: (id: string) => Promise<void>;
   createMovie: (data: FormData) => Promise<void>;
+  updateMovie: (id: string, data: FormData) => Promise<void>;
 }
 
 function MovieDetails({
@@ -27,8 +29,9 @@ function MovieDetails({
   unselectCurrent,
   removeMovie,
   createMovie,
+  updateMovie,
 }: Props) {
-  const [isEditable] = useState<boolean>(isNew);
+  const [isEditable, setEditable] = useState<boolean>(isNew);
   const [formData, setFormData] = useState<Form>({
     name: movie?.name || "",
     releaseDate: formatDateForInput(movie?.releaseDate),
@@ -47,25 +50,25 @@ function MovieDetails({
 
   useEffect(() => {
     if (!isNew && !movie) {
-      getDetails(id).then((movie) => {
-        if (!movie) {
-          return history.push("/");
+      getDetails(id).then((details) => {
+        if (!details) {
+          return history.push(ROUTES.HOME);
         }
 
         setFormData({
-          name: movie.name,
-          releaseDate: formatDateForInput(movie.releaseDate),
-          genre: movie.genre,
-          rating: movie.rating,
-          img: movie.img,
+          name: details.name,
+          releaseDate: formatDateForInput(details.releaseDate),
+          genre: details.genre,
+          rating: details.rating,
+          img: details.img,
         });
       });
     }
-  }, []);
+  }, [getDetails, isNew, movie, id, history]);
 
   const goBack = () => {
     unselectCurrent();
-    history.push("/");
+    history.push(ROUTES.HOME);
   };
 
   const isFormValid = () => {
@@ -119,17 +122,43 @@ function MovieDetails({
     data.append("releaseDate", formData.releaseDate);
     data.append("rating", formData.rating);
 
-    await createMovie(data);
+    if (isNew) {
+      await createMovie(data);
+    } else {
+      await updateMovie(id, data);
+    }
+
     goBack();
   };
 
   const onRemove = async () => {
     await removeMovie(id);
-    history.push("/");
+    history.push(ROUTES.HOME);
+  };
+
+  const onEdit = (ev: React.MouseEvent) => {
+    ev.preventDefault();
+    setEditable(!isEditable);
   };
 
   const renderTitle = () => {
     return <h1>{!movie ? "Create new movie" : "Movie Details"}</h1>;
+  };
+
+  const renderSubmitButton = () => {
+    if (isEditable) {
+      return (
+        <button type="submit" onClick={(ev) => onSubmit(ev)}>
+          Submit
+        </button>
+      );
+    }
+
+    return (
+      <button type="button" onClick={onEdit}>
+        Edit movie
+      </button>
+    );
   };
 
   const renderForm = () => {
@@ -139,6 +168,7 @@ function MovieDetails({
           initialSrc={formData.img}
           setFileUploadRef={(ref) => (fileUploadRef = ref)}
           err={errs.file}
+          isDisabled={!isEditable}
         />
 
         <FormItem
@@ -167,6 +197,7 @@ function MovieDetails({
           value={formData.rating}
           onChange={onFormChange}
           err={errs.rating}
+          inputType="number"
         />
 
         <FormItem
@@ -180,11 +211,7 @@ function MovieDetails({
 
         <div className="buttonWrapper">
           <div>
-            {isEditable && (
-              <button type="submit" onClick={onSubmit}>
-                Submit
-              </button>
-            )}
+            {renderSubmitButton()}
 
             <button type="button" onClick={goBack}>
               Back

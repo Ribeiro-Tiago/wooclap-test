@@ -1,8 +1,9 @@
 import { NewMovie } from "../../../types/movies";
 import { sanitizer } from "../../sanitnize";
 import { isValidDate, isValidNumber } from "../helpers";
+import { toObjectId } from "../../dal/utils";
 
-export const validateCreateBody = (body: NewMovie) => {
+export const validateBody = (body: NewMovie) => {
   const errors: any = {};
   const validated: any = {};
 
@@ -35,4 +36,8 @@ export const validateCreateBody = (body: NewMovie) => {
   }
 
   return { validated };
+};
+
+export const validateParams = (params: { id: string }) => {
+  return toObjectId(sanitizer(params?.id));
 };

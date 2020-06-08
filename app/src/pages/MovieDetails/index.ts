@@ -8,9 +8,15 @@ import {
   updateCurrent,
   deleteMovie,
   addMovie,
+  editMovie,
 } from "../../store/actions/movies";
 import { buildWithFetch } from "../../utils/thunk";
-import { getDetails, removeMovie, createMovie } from "../../services/api";
+import {
+  getDetails,
+  removeMovie,
+  createMovie,
+  updateMovie,
+} from "../../services/api/movies";
 
 const mapStateToProps = (
   { movies, async }: State,
@@ -41,6 +47,11 @@ const mapDispatchToProps = (dispatch: Function) => ({
     const withFetch = buildWithFetch(createMovie, data);
 
     return dispatch(withFetch(addMovie));
+  },
+  updateMovie: (id: string, data: FormData) => {
+    const withFetch = buildWithFetch(updateMovie, { id, data });
+
+    return dispatch(withFetch(editMovie));
   },
 });
 

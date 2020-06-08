@@ -3,6 +3,7 @@ import {
   UPDATE_MOVIES,
   UPDATE_CURRENT_MOVIE,
   DELETE_MOVIE,
+  EDIT_MOVIE,
 } from "../types";
 import { Movie } from "../../types";
 
@@ -21,7 +22,6 @@ export const deleteMovie = (id: string) => ({
   payload: id,
 });
 
-export const addMovie = (payload: Movie) => ({
-  type: ADD_MOVIE,
-  payload,
-});
+export const addMovie = (payload: Movie) => ({ type: ADD_MOVIE, payload });
+
+export const editMovie = (payload: Movie) => ({ type: EDIT_MOVIE, payload });

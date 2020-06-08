@@ -49,15 +49,17 @@
 
       &[type="submit"] {
         @include buttonColor($secondaryColor, $secondaryColor);
+        margin-right: 10px;
       }
 
       &[type="button"] {
         @include buttonColor(#f7f7f7, $secondaryColor);
-        margin-left: 10px;
+        margin-right: 10px;
       }
 
       &.remove {
         @include buttonColor(red, #fb4747);
+        margin-right: 0;
       }
     }
   }

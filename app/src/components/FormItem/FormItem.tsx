@@ -8,7 +8,7 @@ interface Props {
   onChange: (key: string, value: string) => void;
   isDisabled: boolean;
   elemKey: string;
-  inputType?: "text" | "date";
+  inputType?: "text" | "date" | "number";
   err?: string;
 }
 
@@ -21,6 +21,12 @@ export default function FormItem({
   inputType = "text",
   err,
 }: Props) {
+  const onInputChange = ({
+    currentTarget,
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(elemKey, currentTarget.value);
+  };
+
   return (
     <div className={`form-group ${!!err ? "has-error" : ""}`}>
       <div className="form-input">
@@ -29,9 +35,7 @@ export default function FormItem({
           name={elemKey}
           type={inputType}
           value={value}
-          onChange={({ currentTarget }) => {
-            onChange(elemKey, currentTarget.value);
-          }}
+          onChange={onInputChange}
           disabled={isDisabled}
         />
       </div>
