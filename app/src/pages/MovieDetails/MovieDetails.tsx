@@ -197,6 +197,7 @@ function MovieDetails({
           value={formData.rating}
           onChange={onFormChange}
           err={errs.rating}
+          inputType="number"
         />
 
         <FormItem

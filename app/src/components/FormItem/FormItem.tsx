@@ -8,7 +8,7 @@ interface Props {
   onChange: (key: string, value: string) => void;
   isDisabled: boolean;
   elemKey: string;
-  inputType?: "text" | "date";
+  inputType?: "text" | "date" | "number";
   err?: string;
 }
 
