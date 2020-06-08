@@ -2,11 +2,17 @@ import { MOVIES } from "./endpoints";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-const requestWithFile = async (endpoint: string, body: FormData) => {
-  const result = await fetch(`${API_URL}/${endpoint}`, {
-    method: "post",
-    body,
-  });
+interface UpdateMovieParams {
+  id: string;
+  data: FormData;
+}
+
+const requestWithFile = async (
+  endpoint: string,
+  body: FormData,
+  method: "post" | "put",
+) => {
+  const result = await fetch(`${API_URL}/${endpoint}`, { method, body });
 
   // when body comes back empty
   try {
@@ -46,5 +52,9 @@ export const removeMovie = async (id: string) => {
 };
 
 export const createMovie = async (data: FormData) => {
-  return await requestWithFile(MOVIES.BASE, data);
+  return await requestWithFile(MOVIES.BASE, data, "post");
+};
+
+export const updateMovie = async ({ id, data }: UpdateMovieParams) => {
+  return await requestWithFile(MOVIES.DETAILS.replace(":id", id), data, "put");
 };
