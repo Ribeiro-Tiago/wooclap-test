@@ -1,4 +1,4 @@
-import { MOVIES } from "./endpoints";
+import { MOVIES } from "../selectors/api";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -44,11 +44,11 @@ export const searchMovies = async (query: string) => {
 };
 
 export const getDetails = async (id: string) => {
-  return await request(MOVIES.DETAILS.replace(":id", id));
+  return await request(MOVIES.DETAILS(id));
 };
 
 export const removeMovie = async (id: string) => {
-  return await request(MOVIES.DETAILS.replace(":id", id), "delete");
+  return await request(MOVIES.DETAILS(id), "delete");
 };
 
 export const createMovie = async (data: FormData) => {
@@ -56,5 +56,5 @@ export const createMovie = async (data: FormData) => {
 };
 
 export const updateMovie = async ({ id, data }: UpdateMovieParams) => {
-  return await requestWithFile(MOVIES.DETAILS.replace(":id", id), data, "put");
+  return await requestWithFile(MOVIES.DETAILS(id), data, "put");
 };

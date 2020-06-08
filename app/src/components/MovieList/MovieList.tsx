@@ -4,6 +4,7 @@ import "./MovieList.scss";
 import { Movie } from "../../types";
 import MovieItem from "../MovieItem/MovieItem";
 import { useHistory } from "react-router-dom";
+import { ROUTES } from "../../selectors/routes";
 
 interface Props {
   movies: Movie[];
@@ -15,7 +16,7 @@ export default function MovieList({ movies, updateCurrent }: Props) {
 
   const onMovieClick = (movie: Movie) => {
     updateCurrent(movie);
-    history.push(`/details/${movie.id}`);
+    history.push(ROUTES.MOVIE_DETAILS(movie.id));
   };
 
   const renderMovies = () => {

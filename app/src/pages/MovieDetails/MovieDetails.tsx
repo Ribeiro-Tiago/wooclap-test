@@ -6,6 +6,7 @@ import { Movie } from "../../types";
 import { FormItem, ImageUploader } from "../../components";
 import { Form, FormErrors } from "../../types/form";
 import { formatDateForInput } from "../../utils/formatters";
+import { ROUTES } from "../../selectors/routes";
 
 interface Props extends RouteComponentProps {
   movie: Movie;
@@ -51,7 +52,7 @@ function MovieDetails({
     if (!isNew && !movie) {
       getDetails(id).then((details) => {
         if (!details) {
-          return history.push("/");
+          return history.push(ROUTES.HOME);
         }
 
         setFormData({
@@ -67,7 +68,7 @@ function MovieDetails({
 
   const goBack = () => {
     unselectCurrent();
-    history.push("/");
+    history.push(ROUTES.HOME);
   };
 
   const isFormValid = () => {
@@ -132,7 +133,7 @@ function MovieDetails({
 
   const onRemove = async () => {
     await removeMovie(id);
-    history.push("/");
+    history.push(ROUTES.HOME);
   };
 
   const onEdit = (ev: React.MouseEvent) => {
