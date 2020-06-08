@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "./ImageUploader.scss";
 
@@ -15,6 +15,12 @@ export default function MovieDetails({
 }: Props) {
   const [src, setSrc] = useState(initialSrc);
   let uploader: HTMLInputElement;
+
+  useEffect(() => {
+    if (initialSrc !== src) {
+      setSrc(initialSrc);
+    }
+  }, [src, initialSrc]);
 
   const onClick = () => uploader.click();
 

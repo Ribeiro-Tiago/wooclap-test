@@ -48,23 +48,22 @@ function MovieDetails({
   let fileUploadRef: HTMLInputElement;
 
   useEffect(() => {
-    console.log("effect");
     if (!isNew && !movie) {
-      getDetails(id).then((movie) => {
-        if (!movie) {
+      getDetails(id).then((details) => {
+        if (!details) {
           return history.push("/");
         }
 
         setFormData({
-          name: movie.name,
-          releaseDate: formatDateForInput(movie.releaseDate),
-          genre: movie.genre,
-          rating: movie.rating,
-          img: movie.img,
+          name: details.name,
+          releaseDate: formatDateForInput(details.releaseDate),
+          genre: details.genre,
+          rating: details.rating,
+          img: details.img,
         });
       });
     }
-  }, []);
+  }, [getDetails, isNew, movie, id, history]);
 
   const goBack = () => {
     unselectCurrent();
@@ -128,7 +127,7 @@ function MovieDetails({
       await updateMovie(id, data);
     }
 
-    // goBack();
+    goBack();
   };
 
   const onRemove = async () => {
