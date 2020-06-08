@@ -68,6 +68,7 @@ export const createMovie = async ({ files, body }: Request, res: Response) => {
     ...validated,
   });
 
+  res.status(201);
   return res.json(newMovie);
 };
 
