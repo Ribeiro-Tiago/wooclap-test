@@ -87,9 +87,9 @@ export const updateMovie = async (
     return res.error(INVALID_BODY, errors);
   }
 
-  let filename = "";
+  let filename = await getFilename(id);
   if (files?.file) {
-    removeImage(await getFilename(id));
+    removeImage(filename);
     filename = handleUploadFile(files.file);
   }
 

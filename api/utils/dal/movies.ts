@@ -56,16 +56,19 @@ export const addMovie = async (movie: NewMovie) => {
 };
 
 export const getFilename = async (id: ObjectId) => {
-  const filename = await collection("movies").findOne(
+  const { img } = await collection("movies").findOne(
     { _id: id },
     { projection: { img: 1 } },
   );
 
-  console.log(filename);
-
-  return basename(filename);
+  return basename(img);
 };
 
 export const replaceMovie = async (id: ObjectId, movie: Movie) => {
-  return await collection("movies").findOneAndReplace({ _id: id }, movie);
+  const { value } = await collection("movies").findOneAndReplace(
+    { _id: id },
+    movie,
+  );
+
+  return value;
 };
